@@ -13,10 +13,18 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
+            $table->string('phone', 20)->unique()->nullable();
+            $table->enum('role', ['admin','partner'])->default('partner');
             $table->foreignId('user_id')
             ->references('id')
-            ->on('users');
-            $table->id();
+            ->on('users')
+            ->onDelete('cascade');
+            $table->foreignId('village_id')
+            ->references('id')
+            ->on('villages')
+            ->onDelete('cascade');
+            $table->string('address');
+            $table->string('postcode', 8);
             $table->timestamps();
         });
     }
